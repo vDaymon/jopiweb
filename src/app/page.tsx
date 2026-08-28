@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { SectionReveal } from "@/components/SectionReveal";
 import { Hero } from "@/components/sections/Hero";
 import { TrustStrip } from "@/components/sections/TrustStrip";
+import { BrandMoment } from "@/components/sections/BrandMoment";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { Impact } from "@/components/sections/Impact";
 import { Services } from "@/components/sections/Services";
@@ -18,6 +19,7 @@ export default function Home() {
         <SectionReveal>
           <TrustStrip />
         </SectionReveal>
+        <BrandMoment />
         <SectionReveal>
           <HowItWorks />
         </SectionReveal>

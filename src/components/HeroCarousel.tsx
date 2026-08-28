@@ -9,7 +9,6 @@ import { formatCOP } from "@/lib/services";
 const LETTERS = ["J", "o", "p", "i"];
 
 const VIDEO_SLIDES = [
-  { id: "bienvenida", src: "/videos/videoiniciomobile.mp4", label: "Bienvenido a Jopi" },
   { id: "tu-escoges-cuando", src: "/videos/tu-escoges-cuando.mp4", label: "Tú escoges cuándo" },
   {
     id: "un-precio",
@@ -66,8 +65,22 @@ function BrandSlide({ reduce }: { reduce: boolean }) {
   );
 }
 
-function VideoSlide({ src, label }: { src: string; label: string }) {
+function VideoSlide({
+  src,
+  label,
+  onFinished,
+}: {
+  src: string;
+  label: string;
+  onFinished: () => void;
+}) {
   const [errored, setErrored] = useState(false);
+
+  useEffect(() => {
+    if (!errored) return;
+    const timer = setTimeout(onFinished, 4000);
+    return () => clearTimeout(timer);
+  }, [errored, onFinished]);
 
   if (errored) {
     return (
@@ -87,8 +100,8 @@ function VideoSlide({ src, label }: { src: string; label: string }) {
       src={src}
       autoPlay
       muted
-      loop
       playsInline
+      onEnded={onFinished}
       onError={() => setErrored(true)}
     />
   );
@@ -137,25 +150,13 @@ const SLIDES: Slide[] = [
   ...VIDEO_SLIDES.map((v) => ({ id: v.id, kind: "video" as const, src: v.src, label: v.label })),
 ];
 
-const AUTOPLAY_MS = 5000;
+const BRAND_SLIDE_MS = 5000;
 
 export function HeroCarousel() {
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [hovering, setHovering] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => {
-    if (reduce || hovering) return;
-    timerRef.current = setInterval(() => {
-      setDirection(1);
-      setIndex((i) => (i + 1) % SLIDES.length);
-    }, AUTOPLAY_MS);
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [reduce, hovering]);
 
   function goTo(i: number) {
     setDirection(i > index ? 1 : -1);
@@ -172,13 +173,23 @@ export function HeroCarousel() {
     setIndex((i) => (i + 1) % SLIDES.length);
   }
 
+  const current = SLIDES[index];
+
+  // The brand slide loops forever (no natural end), so it advances on a
+  // timer. Video slides advance themselves via VideoSlide's onFinished,
+  // once the clip has actually played through.
+  useEffect(() => {
+    if (reduce || hovering || current.kind !== "brand") return;
+    const timer = setTimeout(next, BRAND_SLIDE_MS);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reduce, hovering, current.id]);
+
   const variants = {
     enter: (dir: number) => ({ x: dir > 0 ? 48 : -48, opacity: 0 }),
     center: { x: 0, opacity: 1 },
     exit: (dir: number) => ({ x: dir > 0 ? -48 : 48, opacity: 0 }),
   };
-
-  const current = SLIDES[index];
 
   return (
     <div className="mx-auto flex w-full flex-col items-center gap-4">
@@ -217,7 +228,11 @@ export function HeroCarousel() {
               {current.kind === "brand" ? (
                 <BrandSlide reduce={!!reduce} />
               ) : (
-                <VideoSlide src={current.src} label={current.label} />
+                <VideoSlide
+                  src={current.src}
+                  label={current.label}
+                  onFinished={reduce ? () => {} : next}
+                />
               )}
             </motion.div>
           </AnimatePresence>
