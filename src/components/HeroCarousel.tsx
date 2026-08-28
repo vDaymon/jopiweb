@@ -9,6 +9,7 @@ import { formatCOP } from "@/lib/services";
 const LETTERS = ["J", "o", "p", "i"];
 
 const VIDEO_SLIDES = [
+  { id: "bienvenida", src: "/videos/videoiniciomobile.mp4", label: "Bienvenido a Jopi" },
   { id: "tu-escoges-cuando", src: "/videos/tu-escoges-cuando.mp4", label: "Tú escoges cuándo" },
   {
     id: "un-precio",

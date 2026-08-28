@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import { SmoothScroll } from "@/components/SmoothScroll";
-import { IntroSplash } from "@/components/IntroSplash";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -21,7 +20,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="es" className={`${outfit.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-jopi-paper text-jopi-ink dark:bg-[#120a1f] dark:text-[#f4f1fa]">
         <SmoothScroll />
-        <IntroSplash />
         {children}
       </body>
     </html>
