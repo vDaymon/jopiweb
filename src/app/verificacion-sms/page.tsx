@@ -20,6 +20,20 @@ export const metadata: Metadata = {
     siteName: "Jopi",
     title: COPY.es.metaTitle,
     description: COPY.es.metaDescription,
+    images: [
+      {
+        url: "/logo/jopi-logo.png",
+        width: 1254,
+        height: 1254,
+        alt: "Jopi",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: COPY.es.metaTitle,
+    description: COPY.es.metaDescription,
+    images: ["/logo/jopi-logo.png"],
   },
 };
 
