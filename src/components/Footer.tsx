@@ -59,7 +59,13 @@ export function Footer() {
             </span>
           </a>
 
-          <div className="flex items-center gap-5">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <Link
+              href="/privacidad"
+              className="text-sm text-jopi-ink/45 transition-colors hover:text-jopi-violet dark:text-white/45 dark:hover:text-jopi-violet"
+            >
+              Política de privacidad
+            </Link>
             <Link
               href="/verificacion-sms"
               className="text-sm text-jopi-ink/45 transition-colors hover:text-jopi-violet dark:text-white/45 dark:hover:text-jopi-violet"
