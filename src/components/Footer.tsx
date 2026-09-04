@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { EnvelopeSimple, InstagramLogo, TiktokLogo, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 
 const SOCIALS = [
@@ -58,9 +59,17 @@ export function Footer() {
             </span>
           </a>
 
-          <p className="text-sm text-jopi-ink/45 dark:text-white/45">
-            © {new Date().getFullYear()} Jopi. Todos los derechos reservados.
-          </p>
+          <div className="flex items-center gap-5">
+            <Link
+              href="/verificacion-sms"
+              className="text-sm text-jopi-ink/45 transition-colors hover:text-jopi-violet dark:text-white/45 dark:hover:text-jopi-violet"
+            >
+              Verificación por SMS
+            </Link>
+            <p className="text-sm text-jopi-ink/45 dark:text-white/45">
+              © {new Date().getFullYear()} Jopi. Todos los derechos reservados.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
