@@ -12,7 +12,9 @@
  * - Fotos: `photos.service.ts` (caducan a los 15 días, enlaces a 15 minutos).
  * - SMS: `phone-verification.service.ts` — el detalle vive en /verificacion-sms.
  * - Documentos del aliado: `data_policy_sheet.dart`, versión 1.2.
- * - Borrado y exportación: `privacy_screen.dart`, hoy por soporte.
+ * - SMS: `sms.service.ts` — Onurix por defecto, AWS SNS de respaldo.
+ * - Borrado: `account-deletion.service.ts` (backend) y `delete_account_screen.dart`.
+ *   Exportación de datos: por soporte.
  *
  * Si alguno de esos comportamientos cambia, hay que actualizar este archivo:
  * es una declaración pública que Google puede contrastar con la app.
@@ -21,7 +23,7 @@
 export const SUPPORT_EMAIL = "soporte@jopiapp.com";
 
 /** Fecha de la última revisión. Se actualiza a mano. */
-export const LAST_UPDATED = "4 de septiembre de 2026";
+export const LAST_UPDATED = "6 de octubre de 2026";
 
 export type Section = {
   id: string;
@@ -124,7 +126,7 @@ export const SECTIONS: Section[] = [
   {
     id: "avisos",
     title: "Notificaciones",
-    body: "Usamos las notificaciones para avisarte de lo que pasa con tus servicios: ofertas recibidas, un aliado en camino, un pago confirmado. Para eso, Firebase Cloud Messaging asigna un identificador a tu dispositivo que guardamos asociado a tu cuenta. Al cerrar sesión, ese identificador se elimina. Las notificaciones promocionales son un ajuste aparte que puedes desactivar en la app.",
+    body: "Usamos las notificaciones para avisarte de lo que pasa con tus servicios: ofertas recibidas, un aliado en camino, un pago confirmado. Para eso, Firebase Cloud Messaging asigna un identificador a tu dispositivo que guardamos asociado a tu cuenta. Al cerrar sesión, ese identificador se elimina. Hoy no enviamos notificaciones promocionales; si algún día lo hacemos, podrás desactivarlas antes de recibir la primera.",
   },
   {
     id: "pagos",
@@ -138,13 +140,16 @@ export const SECTIONS: Section[] = [
     title: "Con quién se comparte",
     body: "Con nadie que no sea necesario para que el servicio funcione. No vendemos datos ni los cedemos con fines comerciales. Estos son todos los terceros que intervienen y para qué:",
     rows: [
-      ["Amazon Web Services", "Servidores, base de datos y envío de SMS"],
+      ["Amazon Web Services", "Servidores, base de datos y almacenamiento de fotos"],
+      ["Onurix", "Envío del código de verificación por SMS"],
       ["Google Maps", "Mapas, direcciones y rutas"],
+      ["Google", "Inicio de sesión con tu cuenta de Google, si lo eliges"],
       ["Firebase (Google)", "Envío de notificaciones"],
+      ["Zoho Mail", "Correos: recuperación de contraseña, soporte y revisión de documentos de aliados"],
       ["Wompi", "Procesamiento de pagos y transferencias"],
     ],
     callout:
-      "Entre usuarios se comparte lo justo: el cliente ve el nombre, la ciudad y la calificación del aliado; el aliado ve el nombre del cliente, la dirección del servicio y —solo si el cliente lo autoriza en sus ajustes— su teléfono para coordinar.",
+      "Entre usuarios se comparte lo justo. Mientras decides, los aliados solo ven tu zona aproximada y lo que necesitas. Cuando eliges a uno, ese aliado ve tu nombre, la dirección exacta del servicio y tu número de celular, para poder llamarte y coordinar la llegada. El cliente ve el nombre, la ciudad, la oferta y el mensaje de cada aliado que se postula.",
   },
   {
     id: "conservacion",
@@ -155,8 +160,23 @@ export const SECTIONS: Section[] = [
       ["Posición durante un servicio", "Mientras el servicio está en curso"],
       ["Documentos de verificación", "Mientras la cuenta esté activa"],
       ["Historial de servicios y pagos", "Lo que exija la ley contable y tributaria"],
+      ["Datos personales de una cuenta eliminada", "Se borran al eliminarla"],
     ],
-    body: "Cuando pides la eliminación de tu cuenta, suprimimos tus datos salvo aquellos que estemos obligados a conservar, como los registros de facturación.",
+    body: "Cuando eliminas tu cuenta, borramos tus datos personales al instante. Solo conservamos, sin tus datos de contacto, los registros de servicios y pagos que la ley nos obliga a guardar.",
+  },
+  {
+    id: "eliminar",
+    title: "Eliminar tu cuenta",
+    body: "Puedes eliminar tu cuenta tú mismo desde la aplicación, en Cuenta → Privacidad → Eliminar mi cuenta. Te pedimos confirmarlo dos veces, porque no se puede deshacer.",
+    bullets: [
+      "Se borran tu nombre, correo, celular, foto de perfil, dirección, tarjetas guardadas, cuentas bancarias, notificaciones y las fotos de tus solicitudes.",
+      "No podrás volver a entrar ni recuperar la cuenta. Puedes crear una nueva cuando quieras.",
+      "El saldo a favor que tengas —Jopi Créditos o el saldo de tu cartera de aliado— se pierde. Si quieres conservarlo, úsalo o retíralo antes.",
+      "Si eres aliado y tienes un saldo pendiente con Jopi por comisiones de servicios en efectivo, debes pagarlo antes de eliminar la cuenta. Puedes hacerlo con tarjeta desde la misma pantalla.",
+      "Si tienes servicios en curso, un cobro en efectivo sin confirmar o un retiro en camino, primero deben terminar.",
+      "Conservamos los registros de servicios y pagos que exige la ley, sin tus datos de contacto, y una huella cifrada e irreversible de tu número de celular que solo sirve para que la promoción de bienvenida no se pueda repetir creando cuentas nuevas.",
+    ],
+    callout: `Si ya no tienes la aplicación instalada, escríbenos a ${SUPPORT_EMAIL} desde el correo de tu cuenta y la eliminamos por ti. Las instrucciones están en jopiapp.com/eliminar-cuenta.`,
   },
   {
     id: "derechos",
@@ -169,7 +189,7 @@ export const SECTIONS: Section[] = [
       "Revocar la autorización y pedir que se supriman.",
       "Presentar quejas ante la Superintendencia de Industria y Comercio.",
     ],
-    callout: `Para ejercer cualquiera de ellos —incluidos eliminar tu cuenta o pedir una copia de tu información— escríbenos a ${SUPPORT_EMAIL}. Respondemos en un máximo de 15 días hábiles. En la aplicación encuentras los mismos accesos dentro de Cuenta → Privacidad.`,
+    callout: `Para ejercer cualquiera de ellos —por ejemplo, pedir una copia de tu información o corregirla— escríbenos a ${SUPPORT_EMAIL}. Respondemos en un máximo de 15 días hábiles. Eliminar tu cuenta lo puedes hacer tú mismo desde la aplicación, en Cuenta → Privacidad.`,
   },
   {
     id: "seguridad",

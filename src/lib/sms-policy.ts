@@ -160,7 +160,7 @@ export const COPY: Record<Lang, Copy> = {
           {
             title: "Las notificaciones van por otro canal",
             body:
-              "Los avisos de la app —ofertas de aliados, estado del servicio, mensajes del chat— se envían como notificaciones push dentro de la aplicación, nunca por SMS.",
+              "Los avisos de la app —ofertas de aliados, estado del servicio, pagos— se envían como notificaciones push dentro de la aplicación, nunca por SMS.",
           },
         ],
       },
@@ -308,7 +308,7 @@ export const COPY: Record<Lang, Copy> = {
           {
             title: "App alerts use a different channel",
             body:
-              "App notifications — provider offers, job status, chat messages — are delivered as push notifications inside the application, never by SMS.",
+              "App notifications — provider offers, job status, payments — are delivered as push notifications inside the application, never by SMS.",
           },
         ],
       },

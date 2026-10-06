@@ -170,6 +170,15 @@ export function PrivacyPolicyPage() {
               </p>
             )}
 
+            {section.id === "eliminar" && (
+              <Link
+                href="/eliminar-cuenta"
+                className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-jopi-violet underline-offset-4 hover:underline"
+              >
+                Cómo eliminar tu cuenta, paso a paso
+              </Link>
+            )}
+
             {section.id === "sms" && (
               <Link
                 href="/verificacion-sms"

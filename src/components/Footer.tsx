@@ -67,6 +67,12 @@ export function Footer() {
               Política de privacidad
             </Link>
             <Link
+              href="/eliminar-cuenta"
+              className="text-sm text-jopi-ink/45 transition-colors hover:text-jopi-violet dark:text-white/45 dark:hover:text-jopi-violet"
+            >
+              Eliminar cuenta
+            </Link>
+            <Link
               href="/verificacion-sms"
               className="text-sm text-jopi-ink/45 transition-colors hover:text-jopi-violet dark:text-white/45 dark:hover:text-jopi-violet"
             >
