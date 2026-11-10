@@ -6,6 +6,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { List, X } from "@phosphor-icons/react/dist/ssr";
 import { staggerContainer, staggerItem } from "@/components/Reveal";
+import { WEB_APP_URL } from "@/lib/site";
 
 const NAV_LINKS = [
   { href: "#como-funciona", label: "Cómo funciona" },
@@ -14,6 +15,7 @@ const NAV_LINKS = [
 ];
 
 const CTA_LABEL = "Descargar la app";
+const WEB_LABEL = "Ingresar a Jopi";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -47,7 +49,13 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden items-center gap-3 lg:flex">
+          <a
+            href={WEB_APP_URL}
+            className="rounded-full border border-jopi-violet/40 px-5 py-2.5 text-sm font-semibold text-jopi-violet transition-colors hover:border-jopi-violet hover:bg-jopi-violet/5 dark:text-white dark:border-white/30"
+          >
+            {WEB_LABEL}
+          </a>
           <a
             href="#descarga"
             className="rounded-full bg-jopi-violet px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 active:scale-[0.98]"
@@ -100,6 +108,13 @@ export function Navbar() {
                   {link.label}
                 </motion.a>
               ))}
+              <motion.a
+                variants={staggerItem}
+                href={WEB_APP_URL}
+                className="mt-2 rounded-full border border-jopi-violet/40 px-5 py-3 text-center text-base font-semibold text-jopi-violet dark:border-white/30 dark:text-white"
+              >
+                {WEB_LABEL}
+              </motion.a>
               <motion.a
                 variants={staggerItem}
                 href="#descarga"

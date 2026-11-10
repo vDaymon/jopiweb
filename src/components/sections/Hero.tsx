@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { HeroCarousel } from "@/components/HeroCarousel";
+import { WEB_APP_URL } from "@/lib/site";
 
 export function Hero() {
   const reduce = useReducedMotion();
@@ -37,6 +38,12 @@ export function Hero() {
               className="rounded-full bg-jopi-violet px-7 py-3.5 text-center text-base font-semibold text-white transition-transform hover:-translate-y-0.5 active:scale-[0.98]"
             >
               Descargar la app
+            </a>
+            <a
+              href={WEB_APP_URL}
+              className="rounded-full border-2 border-jopi-violet px-7 py-3.5 text-center text-base font-semibold text-jopi-violet transition-transform hover:-translate-y-0.5 active:scale-[0.98] dark:border-white/60 dark:text-white"
+            >
+              Ingresar a Jopi
             </a>
             <a
               href="#como-funciona"
