@@ -52,7 +52,7 @@ export function Navbar() {
         <div className="hidden items-center gap-3 lg:flex">
           <a
             href={WEB_APP_URL}
-            className="rounded-full border border-jopi-violet/40 px-5 py-2.5 text-sm font-semibold text-jopi-violet transition-colors hover:border-jopi-violet hover:bg-jopi-violet/5 dark:text-white dark:border-white/30"
+            className="rounded-full bg-jopi-orange px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-jopi-orange/30 transition-transform hover:-translate-y-0.5 active:scale-[0.98]"
           >
             {WEB_LABEL}
           </a>
@@ -111,7 +111,7 @@ export function Navbar() {
               <motion.a
                 variants={staggerItem}
                 href={WEB_APP_URL}
-                className="mt-2 rounded-full border border-jopi-violet/40 px-5 py-3 text-center text-base font-semibold text-jopi-violet dark:border-white/30 dark:text-white"
+                className="mt-2 rounded-full bg-jopi-orange px-5 py-3 text-center text-base font-bold text-white"
               >
                 {WEB_LABEL}
               </motion.a>
